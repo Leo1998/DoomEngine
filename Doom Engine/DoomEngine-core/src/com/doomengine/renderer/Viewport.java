@@ -91,6 +91,12 @@ public class Viewport {
 		this.cam = cam;
 	}
 
+	public void resizeCam(int width, int height) {
+		if (cam != null) {
+			cam.resize(width, height);
+		}
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}

@@ -244,7 +244,8 @@ public class Input {
 		public static final int KEY_LEFT = 0xCB; /* LeftArrow on arrow keypad */
 
 		public static final int KEY_RIGHT = 0xCD; /*
-													 * RightArrow on arrow keypad
+													 * RightArrow on arrow
+													 * keypad
 													 */
 
 		public static final int KEY_END = 0xCF; /* End on arrow keypad */

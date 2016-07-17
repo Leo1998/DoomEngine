@@ -73,18 +73,21 @@ public class RenderManager {
 
 		Scene scene = vp.getScene();
 
-		Camera cam = scene.getMainCamera().getCam();
-		vp.setCam(cam);
-		setupViewport(cam);
+		if (scene != null) {
+			Camera cam = scene.getMainCamera().getCam();
+			vp.setCam(cam);
+			setupViewport(cam);
 
-		Technique technique = defaultTechnique;
-		if (vp.getForcedTechnique() != null)
-			technique = vp.getForcedTechnique();
+			Technique technique = defaultTechnique;
+			if (vp.getForcedTechnique() != null)
+				technique = vp.getForcedTechnique();
 
-		// NOTE: The Scenes Geometry gets added to the ViewPort's RenderQueue
-		scene.render(vp.getQueue());
+			// NOTE: The Scenes Geometry gets added to the ViewPort's
+			// RenderQueue
+			scene.render(vp.getQueue());
 
-		technique.render(vp.getQueue(), cam);
+			technique.render(vp.getQueue(), cam);
+		}
 	}
 
 	public void render() {
@@ -97,7 +100,7 @@ public class RenderManager {
 	public void resize(int width, int height) {
 		for (int i = 0; i < viewPorts.size(); i++) {
 			Viewport vp = viewPorts.get(i);
-			vp.getCam().resize(width, height);
+			vp.resizeCam(width, height);
 		}
 	}
 

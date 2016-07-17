@@ -5,8 +5,6 @@ import com.doomengine.asset.SimpleAssetManager;
 import com.doomengine.renderer.RenderManager;
 import com.doomengine.renderer.Renderer;
 import com.doomengine.renderer.Viewport;
-import com.doomengine.scene.Scene;
-import com.doomengine.scene.SceneList;
 import com.doomengine.system.AppSettings;
 import com.doomengine.system.ContextAllocator;
 import com.doomengine.system.DoomContext;
@@ -18,8 +16,7 @@ public abstract class Application {
 	protected AppSettings appSettings;
 	protected AssetManager assetManager;
 	protected RenderManager renderManager;
-
-	private SceneList scenes = new SceneList();
+	protected Viewport viewport;
 
 	public Application(ContextAllocator contextAllocator) {
 		this(contextAllocator, new AppSettings(true));
@@ -38,12 +35,17 @@ public abstract class Application {
 	public void create() {
 		this.renderManager = new RenderManager(getRenderer());
 		this.assetManager = new SimpleAssetManager(context.getAssetConfigURL());
+
+		this.viewport = renderManager.createMainView("default");
+		this.viewport.setClearFlags(true, true, true);
+
+		appCreate();
 	}
 
-	public void update() {
+	public void update(float deltaTime) {
 		Input.update();
 
-		this.scenes.tickAll();
+		appUpdate(deltaTime);
 	}
 
 	public void render() {
@@ -53,6 +55,8 @@ public abstract class Application {
 
 	public void resize(int width, int height) {
 		renderManager.resize(width, height);
+
+		appResize(width, height);
 	}
 
 	public void gainFocus() {
@@ -64,7 +68,7 @@ public abstract class Application {
 	}
 
 	public void destroy() {
-
+		appDestroy();
 	}
 
 	public DoomContext getContext() {
@@ -91,15 +95,12 @@ public abstract class Application {
 		return assetManager;
 	}
 
-	public Scene addScene(Scene scene) {
-		this.scenes.addScene(scene);
+	public abstract void appCreate();
 
-		Viewport vp = this.renderManager.createMainView("main_view");
-		vp.setClearFlags(true, true, true);
+	public abstract void appUpdate(float deltaTime);
 
-		vp.setScene(scene);
+	public abstract void appResize(int width, int height);
 
-		return scene;
-	}
+	public abstract void appDestroy();
 
 }

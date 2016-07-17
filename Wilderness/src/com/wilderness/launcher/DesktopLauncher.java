@@ -14,7 +14,7 @@ public class DesktopLauncher {
 				return new LwjglDisplay(app);
 			}
 		};
-		
+
 		Application app = new Game(allocator);
 		app.start();
 	}

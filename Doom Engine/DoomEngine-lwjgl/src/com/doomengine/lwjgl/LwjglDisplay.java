@@ -12,6 +12,8 @@ import org.lwjgl.opengl.PixelFormat;
 import com.doomengine.app.Application;
 import com.doomengine.system.AppSettings;
 import com.doomengine.system.Logger;
+import com.doomengine.util.NanoTimer;
+import com.doomengine.util.Timer;
 
 public class LwjglDisplay extends LwjglContext implements Runnable {
 
@@ -147,69 +149,62 @@ public class LwjglDisplay extends LwjglContext implements Runnable {
 		boolean needClose = false;
 		boolean firstRender = true;
 
+		Timer timer = new NanoTimer();
+		Timer fpsTimer = new NanoTimer();
 		int frames = 0;
-		double unprocessedSeconds = 0;
-		long previousTime = System.nanoTime();
-		double secondsPerTick = 1 / 60.0;
-		int tickCount = 0;
-		boolean ticked = false;
 		while (true) {
-			long currentTime = System.nanoTime();
-			long passedTime = currentTime - previousTime;
-			previousTime = currentTime;
-			unprocessedSeconds += passedTime / 1000000000.0;
-			while (unprocessedSeconds > secondsPerTick) {
-				app.update();
-				unprocessedSeconds -= secondsPerTick;
-				ticked = true;
-				tickCount++;
-				if (tickCount % 60 == 0) {
-					Logger.log(frames + " fps");
-					previousTime += 1000;
-					frames = 0;
+			float deltaTime = timer.getTimeInSeconds();
+			timer.reset();
+
+			if (fpsTimer.getTimeInSeconds() >= 1.0f) {
+				int fps = frames;
+				frames = 0;
+				fpsTimer.reset();
+
+				Logger.log("fps: " + fps);
+			}
+
+			if (Display.isCloseRequested()) {
+				needClose = true;
+			}
+			if (wasActive != Display.isActive()) {
+				if (!wasActive) {
+					app.gainFocus();
+					wasActive = true;
+				} else {
+					app.loseFocus();
+					wasActive = false;
 				}
 			}
-			if (ticked) {
-				if (Display.isCloseRequested()) {
-					needClose = true;
+
+			app.update(deltaTime);
+
+			app.render();
+			Display.update(false);
+			Display.sync(framerate);
+
+			Display.processMessages();
+
+			if (needRestart) {
+				needRestart = false;
+				Logger.log("Restarting Context!");
+				try {
+					createContext(settings);
+				} catch (LWJGLException ex) {
+					Logger.log("Failed to set display settings!");
 				}
-				if (wasActive != Display.isActive()) {
-					if (!wasActive) {
-						app.gainFocus();
-						wasActive = true;
-					} else {
-						app.loseFocus();
-						wasActive = false;
-					}
-				}
-
-				app.render();
-				Display.update(false);
-				Display.sync(framerate);
-
-				Display.processMessages();
-
-				if (needRestart) {
-					needRestart = false;
-					Logger.log("Restarting Context!");
-					try {
-						createContext(settings);
-					} catch (LWJGLException ex) {
-						Logger.log("Failed to set display settings!");
-					}
-				} else if (Display.wasResized() || firstRender) {
-					int newWidth = Display.getWidth();
-					int newHeight = Display.getHeight();
-					settings.setResolution(newWidth, newHeight);
-					app.resize(newWidth, newHeight);
-				}
-
-				frames++;
-				firstRender = false;
-
-				if (needClose)
-					break;
+			} else if (Display.wasResized() || firstRender) {
+				int newWidth = Display.getWidth();
+				int newHeight = Display.getHeight();
+				settings.setResolution(newWidth, newHeight);
+				app.resize(newWidth, newHeight);
 			}
+
+			firstRender = false;
+			frames++;
+
+			if (needClose)
+				break;
 		}
 
 		destroy();

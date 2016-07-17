@@ -113,5 +113,4 @@ public abstract class LwjglContext implements DoomContext {
 
 		LwjglNativesLoader.load();
 	}
-
 }
