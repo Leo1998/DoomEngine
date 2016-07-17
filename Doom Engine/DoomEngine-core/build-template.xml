@@ -1,0 +1,39 @@
+<project name="template" default="all" basedir=".">
+
+	<path id="classpath" />
+	<property name="srcDir" value="src" />
+	<property name="target" value="target" />
+	<zipfileset id="jarfiles" dir="." excludes="**" />
+	<fileset id="resourcefiles" dir="." excludes="**" />
+
+	<target name="init">
+		<mkdir dir="${target}" />
+		<mkdir dir="${target}/java" />
+		<delete dir="${target}/java/${jar}" />
+		<mkdir dir="${target}/java/${jar}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac debug="on" encoding="utf-8" source="1.8" target="1.8" srcDir="${srcDir}/src" destdir="${target}/java/${jar}" includeantruntime="false">
+			<classpath>
+				<path refid="classpath" />
+				<fileset file="${srcDir}/libs/*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="all" depends="compile">
+		<mkdir dir="${target}/sources" />
+
+		<jar destfile="${target}/sources/${jar}-sources.jar" basedir="${srcDir}/src" />
+
+		<jar destfile="${target}/${jar}.jar">
+			<fileset dir="${target}/java/${jar}" />
+			<fileset refid="resourcefiles" />
+			<zipgroupfileset file="${srcDir}/libs/*.jar">
+				<exclude name="android*.jar"/>
+			</zipgroupfileset>
+			<zipfileset refid="jarfiles" />
+		</jar>
+	</target>
+</project>

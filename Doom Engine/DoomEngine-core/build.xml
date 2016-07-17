@@ -1,0 +1,18 @@
+<project name="DoomEngine-core" default="build" basedir=".">
+
+	<property name="build.dir" value="../build" />
+
+	<target name="build">
+		<mkdir dir="${build.dir}" />
+
+		<fileset id="resourcefiles" dir="res" />
+
+		<ant antfile="../DoomEngine-core/build-template.xml" dir=".">
+			<property name="target" value="${build.dir}" />
+			<property name="jar" value="doomengine" />
+			<property name="srcDir" value="../DoomEngine-core" />
+			<reference refid="resourcefiles" />
+		</ant>
+	</target>
+
+</project>

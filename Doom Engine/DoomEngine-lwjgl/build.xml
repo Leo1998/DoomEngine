@@ -1,0 +1,23 @@
+<project name="DoomEngine-lwjgl" default="build" basedir=".">
+
+	<property name="build.dir" value="../build" />
+
+	<target name="build">
+		<mkdir dir="${build.dir}" />
+
+		<fileset id="resourcefiles" dir="res" />
+
+		<path id="classpath">
+			<pathelement location="${build.dir}/doomengine.jar" />
+		</path>
+
+		<ant antfile="../DoomEngine-core/build-template.xml" dir=".">
+			<property name="target" value="${build.dir}" />
+			<property name="jar" value="doomengine-backend-lwjgl" />
+			<property name="srcDir" value="../DoomEngine-lwjgl" />
+			<reference refid="classpath" />
+			<reference refid="resourcefiles" />
+		</ant>
+	</target>
+
+</project>
