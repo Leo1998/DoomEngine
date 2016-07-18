@@ -3,6 +3,7 @@ package com.wilderness;
 import com.doomengine.app.Application;
 import com.doomengine.components.Camera3D;
 import com.doomengine.components.EulerController;
+import com.doomengine.components.GeometryComponent;
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.math.ShapeFactory;
 import com.doomengine.math.Vector3f;
@@ -10,6 +11,8 @@ import com.doomengine.scene.GameObject;
 import com.doomengine.scene.Scene;
 import com.doomengine.system.AppSettings;
 import com.doomengine.system.ContextAllocator;
+import com.doomengine.system.Input;
+import com.doomengine.system.Input.Keys;
 
 public class Game extends Application {
 
@@ -19,6 +22,7 @@ public class Game extends Application {
 		appSettings.setResizable(true);
 		appSettings.setTitle("Wilderness");
 		appSettings.setResolution(800, 600);
+//		appSettings.setFullscreen(true);
 		appSettings.setVSync(true);
 		appSettings.setSamples(4);
 
@@ -40,8 +44,9 @@ public class Game extends Application {
 		scene.addObject(player);
 
 		GameObject box = ShapeFactory.createBox(new Vector3f(0, 0, 3), 1, 1, 1);
+		box.getComponent(GeometryComponent.class).getGeometry().getMaterial().setColor("Diffuse", ColorRGBA.GREEN);
 		scene.addObject(box);
-		
+
 		GameObject sphere = ShapeFactory.createSphere(new Vector3f(2, 0, 3), 1.5f);
 		scene.addObject(sphere);
 
@@ -52,6 +57,10 @@ public class Game extends Application {
 
 	@Override public void appUpdate(float deltaTime) {
 		scene.update(deltaTime);
+
+		if (Input.getKey(Keys.KEY_LCONTROL) && Input.getKeyDown(Keys.KEY_R)) {
+			this.context.restart();
+		}
 	}
 
 	@Override public void appResize(int width, int height) {

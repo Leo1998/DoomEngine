@@ -20,7 +20,6 @@ public class EulerController extends GameComponent {
 	private int unlockMouseKey;
 
 	private boolean mouseLocked = false;
-	private Vector2f deltaPos = Vector2f.ZERO;
 
 	public EulerController(float speed, float sensitivity) {
 		this(speed, Keys.KEY_W, Keys.KEY_S, Keys.KEY_A, Keys.KEY_D, sensitivity, Keys.KEY_ESCAPE);
@@ -65,17 +64,15 @@ public class EulerController extends GameComponent {
 		}
 
 		if (mouseLocked) {
-			deltaPos = deltaPos.add(Input.getMousePosition().sub(centerPosition));
+			Vector2f deltaPos = Input.getMousePosition().sub(centerPosition);
 
 			boolean rotY = deltaPos.getX() != 0f;
 			boolean rotX = deltaPos.getY() != 0f;
-			Vector2f d = deltaPos.div(2);
-			deltaPos = deltaPos.sub(d);
 			
 			if (rotY)
-				getTransform().rotate(Y_AXIS, (float) Math.toRadians(d.getX() * sensitivity));
+				getTransform().rotate(Y_AXIS, (float) Math.toRadians(deltaPos.getX() * sensitivity));
 			if (rotX)
-				getTransform().rotate(getTransform().getRotation().getRight(), (float) Math.toRadians(-d.getY() * sensitivity));
+				getTransform().rotate(getTransform().getRotation().getRight(), (float) Math.toRadians(-deltaPos.getY() * sensitivity));
 
 			if (rotY || rotX)
 				Input.setMousePosition(centerPosition);

@@ -1311,8 +1311,7 @@ public class GLRenderer extends Renderer {
 			return;
 		}
 
-		// TODO:
-		// setFrameBuffer(null);
+		bindFramebuffer(null);
 
 		if (enableSrgb) {
 			if (!getBoolean(GLExt.GL_FRAMEBUFFER_SRGB_CAPABLE_EXT)) {

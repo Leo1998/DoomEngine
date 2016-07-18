@@ -1,6 +1,5 @@
 package com.doomengine.renderer;
 
-import com.doomengine.math.Camera;
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.scene.Scene;
 import com.doomengine.texture.FrameBuffer;
@@ -9,7 +8,6 @@ public class Viewport {
 
 	// TODO: Replace with List of GameObjects to render
 	private Scene scene;
-	private Camera cam;
 	private final String name;
 	private boolean enabled = true;
 	private Technique forcedTechnique = null;
@@ -83,17 +81,9 @@ public class Viewport {
 		this.out = out;
 	}
 
-	public Camera getCam() {
-		return cam;
-	}
-
-	public void setCam(Camera cam) {
-		this.cam = cam;
-	}
-
 	public void resizeCam(int width, int height) {
-		if (cam != null) {
-			cam.resize(width, height);
+		if (scene != null && scene.getMainCamera() != null) {
+			scene.getMainCamera().getCam().resize(width, height);
 		}
 	}
 

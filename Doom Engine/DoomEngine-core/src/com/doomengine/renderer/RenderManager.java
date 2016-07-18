@@ -75,7 +75,6 @@ public class RenderManager {
 
 		if (scene != null) {
 			Camera cam = scene.getMainCamera().getCam();
-			vp.setCam(cam);
 			setupViewport(cam);
 
 			Technique technique = defaultTechnique;
