@@ -20,6 +20,7 @@ public class Game extends Application {
 		appSettings.setTitle("Wilderness");
 		appSettings.setResolution(800, 600);
 		appSettings.setVSync(true);
+		appSettings.setSamples(4);
 
 		return appSettings;
 	}
@@ -40,6 +41,9 @@ public class Game extends Application {
 
 		GameObject box = ShapeFactory.createBox(new Vector3f(0, 0, 3), 1, 1, 1);
 		scene.addObject(box);
+		
+		GameObject sphere = ShapeFactory.createSphere(new Vector3f(2, 0, 3), 1.5f);
+		scene.addObject(sphere);
 
 		this.viewport.setScene(scene);
 		this.viewport.setBackgroundColor(ColorRGBA.WHITE);

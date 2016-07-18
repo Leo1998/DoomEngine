@@ -33,6 +33,10 @@ public class Vector4f {
 
 		return new Vector4f(x / length, y / length, z / length, w / length);
 	}
+	
+	public Vector4f lerp(Vector4f dest, float lerpFactor) {
+		return dest.sub(this).mul(lerpFactor).add(this);
+	}
 
 	public Vector4f mul(float r) {
 		return new Vector4f(x * r, y * r, z * r, w * r);

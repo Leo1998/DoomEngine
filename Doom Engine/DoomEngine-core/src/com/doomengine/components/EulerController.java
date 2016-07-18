@@ -19,7 +19,8 @@ public class EulerController extends GameComponent {
 	private float sensitivity;
 	private int unlockMouseKey;
 
-	private boolean m_mouseLocked = false;
+	private boolean mouseLocked = false;
+	private Vector2f deltaPos = Vector2f.ZERO;
 
 	public EulerController(float speed, float sensitivity) {
 		this(speed, Keys.KEY_W, Keys.KEY_S, Keys.KEY_A, Keys.KEY_D, sensitivity, Keys.KEY_ESCAPE);
@@ -36,16 +37,16 @@ public class EulerController extends GameComponent {
 	}
 
 	@Override public void update(float deltaTime) {
-		float movAmt = speed * deltaTime;
+		float amount = speed * deltaTime;
 
 		if (Input.getKey(forwardKey))
-			getTransform().moveInDirection(getTransform().getRotation().getForward(), movAmt);
+			getTransform().moveInDirection(getTransform().getRotation().getForward(), amount);
 		if (Input.getKey(backKey))
-			getTransform().moveInDirection(getTransform().getRotation().getForward(), -movAmt);
+			getTransform().moveInDirection(getTransform().getRotation().getForward(), -amount);
 		if (Input.getKey(leftKey))
-			getTransform().moveInDirection(getTransform().getRotation().getLeft(), movAmt);
+			getTransform().moveInDirection(getTransform().getRotation().getLeft(), amount);
 		if (Input.getKey(rightKey))
-			getTransform().moveInDirection(getTransform().getRotation().getRight(), movAmt);
+			getTransform().moveInDirection(getTransform().getRotation().getRight(), amount);
 
 		//
 
@@ -55,24 +56,26 @@ public class EulerController extends GameComponent {
 
 		if (Input.getKey(unlockMouseKey)) {
 			Input.setCursor(true);
-			m_mouseLocked = false;
+			mouseLocked = false;
 		}
 		if (Input.getMouseDown(0)) {
 			Input.setMousePosition(centerPosition);
 			Input.setCursor(false);
-			m_mouseLocked = true;
+			mouseLocked = true;
 		}
 
-		if (m_mouseLocked) {
-			Vector2f deltaPos = Input.getMousePosition().sub(centerPosition);
+		if (mouseLocked) {
+			deltaPos = deltaPos.add(Input.getMousePosition().sub(centerPosition));
 
-			boolean rotY = deltaPos.getX() != 0;
-			boolean rotX = deltaPos.getY() != 0;
-
+			boolean rotY = deltaPos.getX() != 0f;
+			boolean rotX = deltaPos.getY() != 0f;
+			Vector2f d = deltaPos.div(2);
+			deltaPos = deltaPos.sub(d);
+			
 			if (rotY)
-				getTransform().rotate(Y_AXIS, (float) Math.toRadians(deltaPos.getX() * sensitivity));
+				getTransform().rotate(Y_AXIS, (float) Math.toRadians(d.getX() * sensitivity));
 			if (rotX)
-				getTransform().rotate(getTransform().getRotation().getRight(), (float) Math.toRadians(-deltaPos.getY() * sensitivity));
+				getTransform().rotate(getTransform().getRotation().getRight(), (float) Math.toRadians(-d.getY() * sensitivity));
 
 			if (rotY || rotX)
 				Input.setMousePosition(centerPosition);

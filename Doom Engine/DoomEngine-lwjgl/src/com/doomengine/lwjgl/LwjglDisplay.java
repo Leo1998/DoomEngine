@@ -58,7 +58,7 @@ public class LwjglDisplay extends LwjglContext implements Runnable {
 			displayMode = new DisplayMode(settings.getWidth(), settings.getHeight());
 		}
 
-		int samples = 0;// TODO:
+		int samples = settings.getSamples();
 		PixelFormat pf = new PixelFormat(settings.getBitsPerPixel(), 0, settings.getDepthBits(), settings.getStencilBits(), samples, 0, 0, 0, false);
 
 		framerate = settings.getFrameRate();
