@@ -35,6 +35,8 @@ public class Transform implements CloneableAsset {
 		this.scale = scale;
 
 		this.parentMatrix = new Matrix4f().initIdentity();
+
+		update();
 	}
 
 	@Override public Transform clone() {

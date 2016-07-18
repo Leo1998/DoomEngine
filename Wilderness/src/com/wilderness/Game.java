@@ -1,7 +1,13 @@
 package com.wilderness;
 
 import com.doomengine.app.Application;
+import com.doomengine.components.Camera3D;
+import com.doomengine.components.EulerController;
 import com.doomengine.math.ColorRGBA;
+import com.doomengine.math.ShapeFactory;
+import com.doomengine.math.Vector3f;
+import com.doomengine.scene.GameObject;
+import com.doomengine.scene.Scene;
 import com.doomengine.system.AppSettings;
 import com.doomengine.system.ContextAllocator;
 
@@ -13,6 +19,7 @@ public class Game extends Application {
 		appSettings.setResizable(true);
 		appSettings.setTitle("Wilderness");
 		appSettings.setResolution(800, 600);
+		appSettings.setVSync(true);
 
 		return appSettings;
 	}
@@ -21,12 +28,26 @@ public class Game extends Application {
 		super(contextAllocator, createAppSettings());
 	}
 
+	private Scene scene;
+
 	@Override public void appCreate() {
+		this.scene = new Scene();
+
+		GameObject player = new GameObject();
+		player.addComponent(new EulerController(2.0f, 0.7f));
+		player.addComponent(new Camera3D(this.appSettings.getWidth(), this.appSettings.getHeight(), 70, 0.01f, 1000f));
+		scene.addObject(player);
+
+		GameObject box = ShapeFactory.createBox(new Vector3f(0, 0, 3), 1, 1, 1);
+		scene.addObject(box);
+
+		this.viewport.setScene(scene);
 		this.viewport.setBackgroundColor(ColorRGBA.WHITE);
+		this.viewport.setClearFlags(true, true, false);
 	}
 
 	@Override public void appUpdate(float deltaTime) {
-
+		scene.update(deltaTime);
 	}
 
 	@Override public void appResize(int width, int height) {

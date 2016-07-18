@@ -13,7 +13,7 @@ public class Camera3D extends GameComponent {
 		this.cam = new PerspectiveCamera(width, height, fov, zNear, zFar);
 	}
 
-	@Override public void tick() {
+	@Override public void update(float deltaTime) {
 		this.cam.setCamTransform(this.getTransform());
 	}
 

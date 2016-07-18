@@ -37,10 +37,10 @@ public class SceneList {
 		}
 	}
 
-	public void tickAll() {
+	public void updateAll(float deltaTime) {
 		for (int i = 0; i < scenes.size(); i++) {
 			Scene scene = scenes.get(i);
-			scene.tick();
+			scene.update(deltaTime);
 		}
 	}
 

@@ -23,8 +23,8 @@ public class Scene {
 		getRootObject().inputAll();
 	}
 
-	public void tick() {
-		getRootObject().tickAll();
+	public void update(float deltaTime) {
+		getRootObject().updateAll(deltaTime);
 	}
 
 	public void render(RenderQueue queue) {

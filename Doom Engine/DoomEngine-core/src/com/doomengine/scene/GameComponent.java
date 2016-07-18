@@ -23,7 +23,7 @@ public abstract class GameComponent implements CloneableAsset {
 	public void input() {
 	}
 
-	public void tick() {
+	public void update(float deltaTime) {
 	}
 
 	public void render(RenderQueue queue) {

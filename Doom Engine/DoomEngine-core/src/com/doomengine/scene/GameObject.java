@@ -107,12 +107,12 @@ public class GameObject implements CloneableAsset {
 		}
 	}
 
-	public void tickAll() {
-		tick();
+	public void updateAll(float deltaTime) {
+		update(deltaTime);
 
 		for (int i = 0; i < children.size(); i++) {
 			GameObject child = children.get(i);
-			child.tickAll();
+			child.updateAll(deltaTime);
 		}
 	}
 
@@ -134,10 +134,10 @@ public class GameObject implements CloneableAsset {
 		}
 	}
 
-	public void tick() {
+	public void update(float deltaTime) {
 		for (int i = 0; i < components.size(); i++) {
 			GameComponent component = components.get(i);
-			component.tick();
+			component.update(deltaTime);
 		}
 	}
 
