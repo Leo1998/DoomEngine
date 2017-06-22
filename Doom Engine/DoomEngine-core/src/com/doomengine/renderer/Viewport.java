@@ -1,6 +1,7 @@
 package com.doomengine.renderer;
 
 import com.doomengine.math.ColorRGBA;
+import com.doomengine.renderer.technique.Technique;
 import com.doomengine.scene.Scene;
 import com.doomengine.texture.FrameBuffer;
 

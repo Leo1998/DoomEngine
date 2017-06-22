@@ -33,27 +33,33 @@ public abstract class LwjglContext implements DoomContext {
 		this.settings = app.getAppSettings();
 	}
 
-	@Override public Application getApplication() {
+	@Override
+	public Application getApplication() {
 		return app;
 	}
 
-	@Override public AppSettings getSettings() {
+	@Override
+	public AppSettings getSettings() {
 		return settings;
 	}
 
-	@Override public URL getAssetConfigURL() {
+	@Override
+	public URL getAssetConfigURL() {
 		return Thread.currentThread().getContextClassLoader().getResource("Desktop.cfg");
 	}
 
-	@Override public Renderer getRenderer() {
+	@Override
+	public Renderer getRenderer() {
 		return renderer;
 	}
 
-	@Override public boolean isCreated() {
+	@Override
+	public boolean isCreated() {
 		return created;
 	}
 
-	@Override public boolean isRenderable() {
+	@Override
+	public boolean isRenderable() {
 		return renderer != null;
 	}
 

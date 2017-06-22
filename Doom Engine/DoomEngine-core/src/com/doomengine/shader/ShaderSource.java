@@ -24,13 +24,15 @@ public class ShaderSource extends NativeObject {
 		this.setDefines(defines);
 	}
 
-	@Override public void deleteObject() {
+	@Override
+	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteShaderSource(this);
 
 		id = -1;
 	}
 
-	@Override public void resetObject() {
+	@Override
+	public void resetObject() {
 		id = -1;
 
 		setUpdateNeeded();
@@ -59,7 +61,8 @@ public class ShaderSource extends NativeObject {
 		this.defines = defines;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		String nameTxt = "";
 		if (defines != null)
 			nameTxt += "defines, ";

@@ -97,7 +97,8 @@ public class SimpleAssetManager implements AssetManager {
 		}
 	}
 
-	@Override public void registerLoader(Class<? extends AssetLoader> loaderClass, String... extensions) {
+	@Override
+	public void registerLoader(Class<? extends AssetLoader> loaderClass, String... extensions) {
 		AssetLoader loader = (AssetLoader) newInstance(loaderClass);
 
 		loaderMap.put(loaderClass, loader);
@@ -106,7 +107,8 @@ public class SimpleAssetManager implements AssetManager {
 		Logger.log("A new AssetLoader was registered: " + loaderClass.getName());
 	}
 
-	@Override public void unregisterLoader(Class<? extends AssetLoader> loaderClass) {
+	@Override
+	public void unregisterLoader(Class<? extends AssetLoader> loaderClass) {
 		AssetLoader loader = loaderMap.get(loaderClass);
 
 		loaderMap.remove(loaderClass);
@@ -115,7 +117,8 @@ public class SimpleAssetManager implements AssetManager {
 		Logger.log("A AssetLoader was unregistered: " + loaderClass.getName());
 	}
 
-	@Override public void registerLocator(Class<? extends AssetLocator> locatorClass) {
+	@Override
+	public void registerLocator(Class<? extends AssetLocator> locatorClass) {
 		AssetLocator locator = (AssetLocator) newInstance(locatorClass);
 
 		locatorsList.add(locator);
@@ -123,7 +126,8 @@ public class SimpleAssetManager implements AssetManager {
 		Logger.log("A new AssetLocator was registered: " + locatorClass.getName());
 	}
 
-	@Override public void unregisterLocator(Class<? extends AssetLocator> locatorClass) {
+	@Override
+	public void unregisterLocator(Class<? extends AssetLocator> locatorClass) {
 		for (AssetLocator locator : locatorsList) {
 			if (locator.getClass().equals(locatorClass)) {
 				locatorsList.remove(locator);
@@ -133,7 +137,8 @@ public class SimpleAssetManager implements AssetManager {
 		Logger.log("A AssetLocator was unregistered: " + locatorClass.getName());
 	}
 
-	@Override public AssetInfo locateAsset(AssetKey<?> key) {
+	@Override
+	public AssetInfo locateAsset(AssetKey<?> key) {
 		if (locatorsList.isEmpty()) {
 			Logger.log("There are no locators currently registered.");
 			return null;
@@ -148,7 +153,8 @@ public class SimpleAssetManager implements AssetManager {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked") protected <T> T loadLocatedAsset(AssetKey<T> key, AssetInfo info) {
+	@SuppressWarnings("unchecked")
+	protected <T> T loadLocatedAsset(AssetKey<T> key, AssetInfo info) {
 		AssetLoader loader = aquireLoader(key);
 		if (loader == null) {
 			throw new AssetLoadException("No loader registered for type " + key.getExtension());
@@ -187,7 +193,9 @@ public class SimpleAssetManager implements AssetManager {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked") @Override public <T> T loadAsset(AssetKey<T> key) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T loadAsset(AssetKey<T> key) {
 		T obj = null;
 
 		if (hasCache()) {
@@ -220,15 +228,18 @@ public class SimpleAssetManager implements AssetManager {
 		return null;
 	}
 
-	@Override public AssetCache getCache() {
+	@Override
+	public AssetCache getCache() {
 		return cache;
 	}
 
-	@Override public boolean hasCache() {
+	@Override
+	public boolean hasCache() {
 		return cache != null;
 	}
 
-	@Override public void clearCache() {
+	@Override
+	public void clearCache() {
 		cache.clearCache();
 	}
 

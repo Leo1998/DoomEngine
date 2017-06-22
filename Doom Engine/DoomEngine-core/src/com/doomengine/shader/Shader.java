@@ -30,13 +30,15 @@ public class Shader extends NativeObject {
 		addShaderSource(ShaderType.FragmentShader, fragmentSource, null);
 	}
 
-	@Override public void deleteObject() {
+	@Override
+	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteShader(this);
 
 		id = -1;
 	}
 
-	@Override public void resetObject() {
+	@Override
+	public void resetObject() {
 		id = -1;
 
 		for (ShaderSource source : sources) {

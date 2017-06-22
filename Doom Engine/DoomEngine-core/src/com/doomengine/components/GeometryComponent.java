@@ -13,7 +13,8 @@ public class GeometryComponent extends GameComponent {
 		this.geometry = geometry;
 	}
 
-	@Override public GameComponent clone() {
+	@Override
+	public GameComponent clone() {
 		GameComponent clone = super.clone();
 
 		((GeometryComponent) clone).geometry = this.geometry.clone();
@@ -21,7 +22,8 @@ public class GeometryComponent extends GameComponent {
 		return clone;
 	}
 
-	@Override public void render(RenderQueue queue) {
+	@Override
+	public void render(RenderQueue queue) {
 		Transform transform = this.getTransform();
 		geometry.setTransformationMatrix(transform.getTransformation());
 

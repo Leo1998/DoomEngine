@@ -14,7 +14,8 @@ public class PerspectiveCamera extends Camera {
 		this.zFar = zFar;
 	}
 
-	@Override public void resize(int width, int height) {
+	@Override
+	public void resize(int width, int height) {
 		super.resize(width, height);
 
 		float aspect = (float) width / (float) height;

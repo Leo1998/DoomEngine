@@ -14,6 +14,8 @@ public class Image {
 	private int height;
 	private int depth;
 	private int multiSamples = 1;
+	private int mipmapLevels = 4;
+	private boolean mipmapsGenerated = false;
 	private ArrayList<ByteBuffer> data;
 	private ColorSpace colorSpace = null;
 
@@ -42,7 +44,8 @@ public class Image {
 		this.colorSpace = colorSpace;
 	}
 
-	@Override public Image clone() {
+	@Override
+	public Image clone() {
 		try {
 			Image clone = (Image) super.clone();
 			clone.data = data != null ? new ArrayList<ByteBuffer>(data) : null;
@@ -70,6 +73,22 @@ public class Image {
 
 	public int getMultiSamples() {
 		return multiSamples;
+	}
+
+	public boolean isMipmapsGenerated() {
+		return mipmapsGenerated;
+	}
+
+	public void setMipmapsGenerated(boolean mipmapsGenerated) {
+		this.mipmapsGenerated = mipmapsGenerated;
+	}
+
+	public int getMipmapLevels() {
+		return mipmapLevels;
+	}
+
+	public boolean isGeneratedMipmapsRequired() {
+		return mipmapLevels > 1;
 	}
 
 	public List<ByteBuffer> getData() {

@@ -24,7 +24,8 @@ public class GameObject implements CloneableAsset {
 		scene = null;
 	}
 
-	@Override public GameObject clone() {
+	@Override
+	public GameObject clone() {
 		try {
 			GameObject clone = (GameObject) super.clone();
 
@@ -126,8 +127,6 @@ public class GameObject implements CloneableAsset {
 	}
 
 	public void input() {
-		transform.update(); // NOTE: crappy but fine
-
 		for (int i = 0; i < components.size(); i++) {
 			GameComponent component = components.get(i);
 			component.input();
@@ -221,7 +220,8 @@ public class GameObject implements CloneableAsset {
 	 *            the type
 	 * @return the components (might be empty if there is none)
 	 */
-	@SuppressWarnings("unchecked") public <T extends GameComponent> ArrayList<T> getComponents(Class<T> type) {
+	@SuppressWarnings("unchecked")
+	public <T extends GameComponent> ArrayList<T> getComponents(Class<T> type) {
 		ArrayList<T> result = new ArrayList<T>();
 		for (int i = 0; i < components.size(); i++) {
 			GameComponent component = components.get(i);

@@ -449,23 +449,27 @@ public class GLRenderer extends Renderer {
 		return nameBuf.get(0) != (byte) 0;
 	}
 
-	@Override public void newFrame() {
+	@Override
+	public void newFrame() {
 		objManager.deleteUnused();
 	}
 
-	@Override public void resetContext() {
+	@Override
+	public void resetContext() {
 		Logger.log("Resetting GLRenderer Context!");
 		objManager.resetObjects();
 		context.reset();
 	}
 
-	@Override public void cleanup() {
+	@Override
+	public void cleanup() {
 		Logger.log("Deleting GLRenderer Context!");
 		objManager.deleteAllObjects();
 		context.reset();
 	}
 
-	@Override public void setCullFace(CullFace cullface) {
+	@Override
+	public void setCullFace(CullFace cullface) {
 		if (cullface != context.cullface) {
 			if (cullface == CullFace.Off) {
 				gl.glDisable(GL.GL_CULL_FACE);
@@ -493,7 +497,8 @@ public class GLRenderer extends Renderer {
 		}
 	}
 
-	@Override public void enableDepthTest(boolean flag) {
+	@Override
+	public void enableDepthTest(boolean flag) {
 		if (flag && !context.depthTestEnabled)
 			gl.glEnable(GL.GL_DEPTH_TEST);
 		else if (!flag && context.depthTestEnabled)
@@ -503,7 +508,8 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void setDepthFunc(TestFunc depthfunc) {
+	@Override
+	public void setDepthFunc(TestFunc depthfunc) {
 		if (context.depthFunc != depthfunc)
 			gl.glDepthFunc(convertDepthFunc(depthfunc));
 
@@ -511,7 +517,8 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void setDepthWriteEnabled(boolean flag) {
+	@Override
+	public void setDepthWriteEnabled(boolean flag) {
 		if (context.depthWriteEnabled != flag) {
 			gl.glDepthMask(flag);
 		}
@@ -520,7 +527,8 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void setClearColor(float r, float g, float b, float a) {
+	@Override
+	public void setClearColor(float r, float g, float b, float a) {
 		if (!context.clearColor.equals(new ColorRGBA(r, g, b, a)))
 			gl.glClearColor(r, g, b, a);
 
@@ -528,7 +536,8 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void clear(boolean color, boolean depth, boolean stencil) {
+	@Override
+	public void clear(boolean color, boolean depth, boolean stencil) {
 		int mask = 0;
 
 		if (color)
@@ -544,7 +553,8 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void setViewPort(int x, int y, int w, int h) {
+	@Override
+	public void setViewPort(int x, int y, int w, int h) {
 		if (x != vpX || vpY != y || vpW != w || vpH != h) {
 			gl.glViewport(x, y, w, h);
 			vpX = x;
@@ -554,7 +564,8 @@ public class GLRenderer extends Renderer {
 		}
 	}
 
-	@Override public void setBlendMode(BlendMode blendMode) {
+	@Override
+	public void setBlendMode(BlendMode blendMode) {
 		if (blendMode != context.blendMode) {
 			if (blendMode == BlendMode.Off) {
 				gl.glDisable(GL.GL_BLEND);
@@ -599,20 +610,22 @@ public class GLRenderer extends Renderer {
 		}
 	}
 
-	@Override public void deleteTexture(Texture texture) {
+	@Override
+	public void deleteTexture(Texture texture) {
 		intBuf1.put(0, texture.getId());
 		gl.glDeleteTextures(intBuf1);
 	}
 
-	@Override public void bindTexture(Texture texture, int unit) {
+	@Override
+	public void bindTexture(Texture texture, int unit) {
 		if (texture != null && texture.isUpdateNeeded()) {
 			updateTexture(texture);
 		}
 
 		Texture[] textures = context.boundTextures;
 
-		int type = texture != null ? convertTextureType(texture.getType()) : GL.GL_TEXTURE_2D;// NOTE:
-																								// workaround
+		int type = texture != null ? convertTextureType(texture.getType()) : GL.GL_TEXTURE_2D;// NOTE:workaround
+
 		if (textures[unit] != texture) {
 			if (context.boundTextureUnit != unit) {
 				gl.glActiveTexture(GL.GL_TEXTURE0 + unit);
@@ -637,6 +650,29 @@ public class GLRenderer extends Renderer {
 		int target = convertTextureType(texture.getType());
 		Image img = texture.getImage();
 
+		gl.glBindTexture(target, id);
+
+		if (!img.isMipmapsGenerated() && img.isGeneratedMipmapsRequired()) {
+			// Image does not have mipmaps, but they are required.
+			// Generate from base level.
+
+			if (!caps.contains(Caps.FrameBuffer) && gl2 != null) {
+				gl2.glTexParameteri(target, GL2.GL_GENERATE_MIPMAP, GL.GL_TRUE);
+				img.setMipmapsGenerated(true);
+			} else {
+				// For OpenGL3 and up.
+				// We'll generate mipmaps via glGenerateMipmapEXT (see below)
+			}
+		} else if (img.isMipmapsGenerated()) {
+			// Image already has mipmaps, set the max level based on the
+			// number of mipmaps we have.
+			gl.glTexParameteri(target, GL.GL_TEXTURE_MAX_LEVEL, img.getMipmapLevels() - 1);
+		} else {
+			// Image does not have mipmaps and they are not required.
+			// Specify that that the texture has no mipmaps.
+			gl.glTexParameteri(target, GL.GL_TEXTURE_MAX_LEVEL, 0);
+		}
+
 		if (texture.getType() == Texture.Type.TwoDimensional) {
 			texUtil.uploadTexture(img, target, 0, linearizeSrgbImages);
 		} else if (texture.getType() == Texture.Type.Cubemap) {
@@ -652,6 +688,13 @@ public class GLRenderer extends Renderer {
 		}
 
 		setupTextureParams(texture);
+
+		if (caps.contains(Caps.FrameBuffer) || gl2 == null) {
+			if (!img.isMipmapsGenerated() && img.isGeneratedMipmapsRequired() && img.getData(0) != null) {
+				glfbo.glGenerateMipmapEXT(target);
+				img.setMipmapsGenerated(true);
+			}
+		}
 
 		texture.clearUpdateNeeded();
 	}
@@ -690,11 +733,13 @@ public class GLRenderer extends Renderer {
 
 	}
 
-	@Override public void copyFrameBuffer(FrameBuffer src, FrameBuffer dst) {
+	@Override
+	public void copyFrameBuffer(FrameBuffer src, FrameBuffer dst) {
 		copyFrameBuffer(src, dst, true);
 	}
 
-	@Override public void copyFrameBuffer(FrameBuffer src, FrameBuffer dst, boolean copyDepth) {
+	@Override
+	public void copyFrameBuffer(FrameBuffer src, FrameBuffer dst, boolean copyDepth) {
 		if (caps.contains(Caps.FrameBufferBlit)) {
 			int srcX0 = 0;
 			int srcY0 = 0;
@@ -750,7 +795,8 @@ public class GLRenderer extends Renderer {
 		}
 	}
 
-	@Override public void deleteFramebuffer(FrameBuffer framebuffer) {
+	@Override
+	public void deleteFramebuffer(FrameBuffer framebuffer) {
 		if (context.boundFBO == framebuffer.getId()) {
 			glfbo.glBindFramebufferEXT(GLFbo.GL_FRAMEBUFFER_EXT, 0);
 			context.boundFBO = 0;
@@ -767,7 +813,8 @@ public class GLRenderer extends Renderer {
 		glfbo.glDeleteFramebuffersEXT(intBuf1);
 	}
 
-	@Override public void bindFramebuffer(FrameBuffer framebuffer) {
+	@Override
+	public void bindFramebuffer(FrameBuffer framebuffer) {
 		int id = framebuffer != null ? framebuffer.getId() : 0;
 
 		if (framebuffer != null && framebuffer.isUpdateNeeded()) {
@@ -918,7 +965,8 @@ public class GLRenderer extends Renderer {
 	//
 	// }
 
-	@Override public void renderMesh(Mesh mesh) {
+	@Override
+	public void renderMesh(Mesh mesh) {
 		VertexBufferObject vertexBuffer = mesh.getVertexBuffer();
 		IndexBufferObject indexBuffer = mesh.getIndexBuffer();
 
@@ -941,13 +989,15 @@ public class GLRenderer extends Renderer {
 		clearVertexAttributes();
 	}
 
-	@Override public void deleteVertexBuffer(VertexBuffer buffer) {
+	@Override
+	public void deleteVertexBuffer(VertexBuffer buffer) {
 		intBuf1.put(0, buffer.getId());
 		gl.glDeleteBuffers(intBuf1);
 
 	}
 
-	@Override public void bindVertexBuffer(VertexBuffer buffer) {
+	@Override
+	public void bindVertexBuffer(VertexBuffer buffer) {
 		if (buffer != null && buffer.isUpdateNeeded()) {
 			updateVertexBuffer(buffer);
 		}
@@ -1010,7 +1060,8 @@ public class GLRenderer extends Renderer {
 		buffer.clearUpdateNeeded();
 	}
 
-	@Override public void bindShader(Shader shader) {
+	@Override
+	public void bindShader(Shader shader) {
 		if (shader.isUpdateNeeded()) {
 			updateShader(shader);
 		}
@@ -1023,7 +1074,8 @@ public class GLRenderer extends Renderer {
 		updateShaderUniforms(shader);
 	}
 
-	@Override public void deleteShader(Shader shader) {
+	@Override
+	public void deleteShader(Shader shader) {
 		gl.glDeleteProgram(shader.getId());
 	}
 
@@ -1074,7 +1126,8 @@ public class GLRenderer extends Renderer {
 		shader.clearUpdateNeeded();
 	}
 
-	@Override public void deleteShaderSource(ShaderSource source) {
+	@Override
+	public void deleteShaderSource(ShaderSource source) {
 		gl.glDeleteShader(source.getId());
 	}
 
@@ -1251,7 +1304,8 @@ public class GLRenderer extends Renderer {
 		attrib.clearUpdateNeeded();
 	}
 
-	@Override public void setVertexAttributes(VertexAttributes attributes) {
+	@Override
+	public void setVertexAttributes(VertexAttributes attributes) {
 		Shader shader = context.boundShader;
 		assert shader != null && shader.getId() > 0;
 
@@ -1278,7 +1332,8 @@ public class GLRenderer extends Renderer {
 		context.currentVertexAttribs = attributes;
 	}
 
-	@Override public void clearVertexAttributes() {
+	@Override
+	public void clearVertexAttributes() {
 		Shader shader = context.boundShader;
 		assert shader != null && shader.getId() > 0;
 
@@ -1304,7 +1359,8 @@ public class GLRenderer extends Renderer {
 		context.currentVertexAttribs = null;
 	}
 
-	@Override public void setMainFrameBufferSrgb(boolean enableSrgb) {
+	@Override
+	public void setMainFrameBufferSrgb(boolean enableSrgb) {
 		if (!caps.contains(Caps.Srgb) && enableSrgb) {
 			Logger.log("sRGB framebuffer is not supported by video hardware, but was requested.");
 
@@ -1326,7 +1382,8 @@ public class GLRenderer extends Renderer {
 		}
 	}
 
-	@Override public void setLinearizeSrgbImages(boolean linearize) {
+	@Override
+	public void setLinearizeSrgbImages(boolean linearize) {
 		if (caps.contains(Caps.Srgb)) {
 			linearizeSrgbImages = linearize;
 		}

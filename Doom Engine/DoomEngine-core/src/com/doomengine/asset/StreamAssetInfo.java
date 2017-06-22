@@ -12,7 +12,8 @@ public class StreamAssetInfo extends AssetInfo {
 		this.inputStream = inputStream;
 	}
 
-	@Override public InputStream openStream() {
+	@Override
+	public InputStream openStream() {
 		if (alreadyOpened) {
 			throw new IllegalStateException("Stream already opened");
 		}

@@ -49,7 +49,7 @@ public abstract class Application {
 		ShapeFactory.init(assetManager);
 
 		this.viewport = renderManager.createMainView("default");
-		this.viewport.setClearFlags(true, true, true);
+		this.viewport.setClearFlags(true, true, false);
 
 		appCreate();
 	}

@@ -40,7 +40,8 @@ public class RenderBuffer {
 		id = -1;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		if (tex != null) {
 			return "TextureTarget[format=" + format + "]";
 		} else {

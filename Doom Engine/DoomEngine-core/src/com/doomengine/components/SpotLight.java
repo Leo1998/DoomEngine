@@ -1,8 +1,6 @@
 package com.doomengine.components;
 
 import com.doomengine.math.ColorRGBA;
-import com.doomengine.shader.Shader;
-import com.doomengine.shader.VarType;
 
 public class SpotLight extends PointLight {
 
@@ -14,12 +12,14 @@ public class SpotLight extends PointLight {
 		this.cutoff = cutoff;
 	}
 
-	@Override public void apply(Shader shader, String parent) {
-		super.apply(shader, parent + "pointLight.");
-
-		shader.getUniform(parent + "direction").setValue(VarType.Vector3, this.getTransform().getTransformedRotation().getForward());
-		shader.getUniform(parent + "cutoff").setValue(VarType.Float, cutoff);
-	}
+	/*
+	 * @Override public void apply(Shader shader, String parent) {
+	 * super.apply(shader, parent + "pointLight.");
+	 * 
+	 * shader.getUniform(parent + "direction").setValue(VarType.Vector3,
+	 * this.getTransform().getTransformedRotation().getForward());
+	 * shader.getUniform(parent + "cutoff").setValue(VarType.Float, cutoff); }
+	 */
 
 	public float getCutoff() {
 		return cutoff;

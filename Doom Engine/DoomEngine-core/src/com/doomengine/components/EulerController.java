@@ -35,7 +35,8 @@ public class EulerController extends GameComponent {
 		this.unlockMouseKey = unlockMouseKey;
 	}
 
-	@Override public void update(float deltaTime) {
+	@Override
+	public void update(float deltaTime) {
 		float amount = speed * deltaTime;
 
 		if (Input.getKey(forwardKey))
@@ -68,7 +69,7 @@ public class EulerController extends GameComponent {
 
 			boolean rotY = deltaPos.getX() != 0f;
 			boolean rotX = deltaPos.getY() != 0f;
-			
+
 			if (rotY)
 				getTransform().rotate(Y_AXIS, (float) Math.toRadians(deltaPos.getX() * sensitivity));
 			if (rotX)

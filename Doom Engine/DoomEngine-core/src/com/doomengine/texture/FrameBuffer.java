@@ -118,13 +118,15 @@ public class FrameBuffer extends NativeObject {
 		return samples;
 	}
 
-	@Override public void deleteObject() {
+	@Override
+	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteFramebuffer(this);
 
 		id = -1;
 	}
 
-	@Override public void resetObject() {
+	@Override
+	public void resetObject() {
 		id = -1;
 
 		for (int i = 0; i < colorBufs.size(); i++) {

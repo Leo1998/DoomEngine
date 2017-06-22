@@ -149,7 +149,8 @@ public class AWTLoader implements AssetLoader {
 		return load(img, flipY);
 	}
 
-	@Override public Object load(AssetInfo info) throws IOException {
+	@Override
+	public Object load(AssetInfo info) throws IOException {
 		if (ImageIO.getImageReadersBySuffix(info.getKey().getExtension()) != null) {
 			boolean flip = false;
 			InputStream in = null;

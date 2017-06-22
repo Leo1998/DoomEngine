@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.doomengine.math.Camera;
 import com.doomengine.math.ColorRGBA;
+import com.doomengine.renderer.technique.MultiPassLightingTechnique;
+import com.doomengine.renderer.technique.Technique;
+import com.doomengine.renderer.technique.UnshadedTechnique;
 import com.doomengine.scene.Scene;
 import com.doomengine.texture.FrameBuffer;
 
@@ -19,7 +22,7 @@ public class RenderManager {
 	public RenderManager(Renderer renderer) {
 		this.renderer = renderer;
 
-		this.defaultTechnique = new Technique(renderer);
+		this.defaultTechnique = new UnshadedTechnique(renderer);
 
 		renderer.setCullFace(CullFace.Front);
 		renderer.enableDepthTest(true);
@@ -28,6 +31,12 @@ public class RenderManager {
 
 	public Viewport createMainView(String viewName) {
 		Viewport vp = new Viewport(viewName);
+
+		vp.setForcedTechnique(new MultiPassLightingTechnique(renderer)); // change
+																			// 3d
+																			// technique
+																			// here
+
 		viewPorts.add(vp);
 		return vp;
 	}

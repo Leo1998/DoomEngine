@@ -13,15 +13,18 @@ public class Camera3D extends GameComponent {
 		this.cam = new PerspectiveCamera(width, height, fov, zNear, zFar);
 	}
 
-	@Override public void update(float deltaTime) {
+	@Override
+	public void update(float deltaTime) {
 		this.cam.setCamTransform(this.getTransform());
 	}
 
-	@Override public void addToScene(Scene scene) {
+	@Override
+	public void addToScene(Scene scene) {
 		scene.setMainCamera(this);
 	}
 
-	@Override public void removeFromScene(Scene scene) {
+	@Override
+	public void removeFromScene(Scene scene) {
 		scene.setMainCamera(null);
 	}
 

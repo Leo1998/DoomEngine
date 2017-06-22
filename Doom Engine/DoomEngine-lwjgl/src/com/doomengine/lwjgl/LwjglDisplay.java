@@ -105,15 +105,18 @@ public class LwjglDisplay extends LwjglContext implements Runnable {
 		}
 	}
 
-	@Override public void create() {
+	@Override
+	public void create() {
 		new Thread(this, THREAD_NAME).start();
 	}
 
-	@Override public void restart() {
+	@Override
+	public void restart() {
 		needRestart = true;
 	}
 
-	@Override public void destroy() {
+	@Override
+	public void destroy() {
 		try {
 			app.destroy();
 			renderer.cleanup();
@@ -124,7 +127,8 @@ public class LwjglDisplay extends LwjglContext implements Runnable {
 		}
 	}
 
-	@Override public void run() {
+	@Override
+	public void run() {
 		loadNatives();
 
 		try {

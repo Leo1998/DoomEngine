@@ -200,7 +200,8 @@ public class MTLLoader implements AssetLoader {
 		}
 	}
 
-	@Override public Object load(AssetInfo info) throws IOException {
+	@Override
+	public Object load(AssetInfo info) throws IOException {
 		reset();
 
 		this.key = info.getKey();

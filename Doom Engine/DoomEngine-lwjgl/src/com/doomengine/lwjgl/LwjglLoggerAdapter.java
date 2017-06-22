@@ -6,7 +6,8 @@ import com.doomengine.system.ILoggerAdapter;
 
 public class LwjglLoggerAdapter implements ILoggerAdapter {
 
-	@Override public void log(String msg) {
+	@Override
+	public void log(String msg) {
 		Date date = new Date();
 
 		System.out.println("[" + date + "]" + ": " + msg);

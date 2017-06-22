@@ -2,7 +2,7 @@ package com.doomengine.material;
 
 import com.doomengine.math.ColorSpace;
 import com.doomengine.renderer.Renderer;
-import com.doomengine.renderer.Technique;
+import com.doomengine.renderer.technique.Technique;
 import com.doomengine.shader.VarType;
 import com.doomengine.texture.Texture;
 
@@ -19,13 +19,11 @@ public class MatParamTexture extends MatParam {
 		this.colorSpace = colorSpace;
 	}
 
-	@Override public void apply(Technique technique) {
+	@Override
+	public void apply(Technique technique) {
 		Renderer renderer = technique.getRenderer();
 		renderer.bindTexture(getTextureValue(), getUnit());
 		technique.updateUniformParam(getPrefixedName(), getVarType(), Integer.valueOf(getUnit()));
-		renderer.bindTexture(null, getUnit());
-
-		technique.updateUniformParam(getPrefixedName() + "_bound", VarType.Boolean, Boolean.TRUE);
 	}
 
 	public Texture getTextureValue() {
@@ -37,7 +35,8 @@ public class MatParamTexture extends MatParam {
 		this.texture = value;
 	}
 
-	@Override public void setValue(Object value) {
+	@Override
+	public void setValue(Object value) {
 		if (!(value instanceof Texture)) {
 			throw new IllegalArgumentException("value must be a texture");
 		}
@@ -53,12 +52,12 @@ public class MatParamTexture extends MatParam {
 		this.colorSpace = colorSpace;
 	}
 
-	public void setUnit(int unit) {
-		this.unit = unit;
-	}
-
 	public int getUnit() {
 		return unit;
+	}
+
+	public void setUnit(int unit) {
+		this.unit = unit;
 	}
 
 }

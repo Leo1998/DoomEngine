@@ -81,18 +81,21 @@ public class AssetKey<T> {
 		return extension;
 	}
 
-	@Override public boolean equals(Object other) {
+	@Override
+	public boolean equals(Object other) {
 		if (!(other instanceof AssetKey)) {
 			return false;
 		}
 		return name.equals(((AssetKey<?>) other).name);
 	}
 
-	@Override public int hashCode() {
+	@Override
+	public int hashCode() {
 		return name.hashCode();
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return name;
 	}
 

@@ -1,7 +1,7 @@
 package com.doomengine.material;
 
 import com.doomengine.asset.CloneableAsset;
-import com.doomengine.renderer.Technique;
+import com.doomengine.renderer.technique.Technique;
 import com.doomengine.shader.VarType;
 
 public class MatParam implements CloneableAsset {
@@ -18,7 +18,8 @@ public class MatParam implements CloneableAsset {
 		this.value = value;
 	}
 
-	@Override public MatParam clone() {
+	@Override
+	public MatParam clone() {
 		try {
 			MatParam param = (MatParam) super.clone();
 			return param;

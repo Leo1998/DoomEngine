@@ -32,7 +32,8 @@ public class UrlAssetInfo extends AssetInfo {
 		return in != null;
 	}
 
-	@Override public InputStream openStream() {
+	@Override
+	public InputStream openStream() {
 		if (in != null) {
 			InputStream in2 = in;
 			in = null;

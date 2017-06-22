@@ -27,13 +27,15 @@ public class IndexBufferObject extends VertexBuffer {
 		data.rewind();
 	}
 
-	@Override public void deleteObject() {
+	@Override
+	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteVertexBuffer(this);
 
 		id = -1;
 	}
 
-	@Override public void resetObject() {
+	@Override
+	public void resetObject() {
 		id = -1;
 
 		setUpdateNeeded();

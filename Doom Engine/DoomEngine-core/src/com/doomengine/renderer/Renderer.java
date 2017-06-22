@@ -7,7 +7,7 @@ import com.doomengine.texture.Texture;
 
 public abstract class Renderer {
 
-	protected final RenderContext context;
+	public final RenderContext context;
 
 	/**
 	 * This MUST be invoked by the superclass!

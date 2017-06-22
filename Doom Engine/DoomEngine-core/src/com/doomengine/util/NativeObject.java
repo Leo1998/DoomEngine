@@ -16,7 +16,8 @@ public abstract class NativeObject implements CloneableAsset {
 		this.id = id;
 	}
 
-	@Override public NativeObject clone() {
+	@Override
+	public NativeObject clone() {
 		try {
 			NativeObject obj = (NativeObject) super.clone();
 			obj.manager = null;
@@ -73,7 +74,8 @@ public abstract class NativeObject implements CloneableAsset {
 		updateNeeded = true;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return this.getClass().getSimpleName() + " id: " + id;
 	}
 

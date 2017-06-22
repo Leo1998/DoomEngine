@@ -10,15 +10,18 @@ public class NanoTimer extends Timer {
 		startTime = System.nanoTime();
 	}
 
-	@Override public long getTime() {
+	@Override
+	public long getTime() {
 		return System.nanoTime() - startTime;
 	}
 
-	@Override public long getResolution() {
+	@Override
+	public long getResolution() {
 		return TIMER_RESOLUTION;
 	}
 
-	@Override public void reset() {
+	@Override
+	public void reset() {
 		startTime = System.nanoTime();
 	}
 

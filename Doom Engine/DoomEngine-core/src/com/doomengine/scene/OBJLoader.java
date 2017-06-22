@@ -38,7 +38,8 @@ public class OBJLoader implements AssetLoader {
 		Vector3f vn;
 		int index;
 
-		@Override public boolean equals(Object obj) {
+		@Override
+		public boolean equals(Object obj) {
 			if (obj == null) {
 				return false;
 			}
@@ -375,7 +376,8 @@ public class OBJLoader implements AssetLoader {
 		return geom;
 	}
 
-	@Override public Object load(AssetInfo info) throws IOException {
+	@Override
+	public Object load(AssetInfo info) throws IOException {
 		reset();
 
 		if (!(info.getKey() instanceof ModelKey)) {

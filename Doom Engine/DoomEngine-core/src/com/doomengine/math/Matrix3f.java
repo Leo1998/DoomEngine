@@ -96,7 +96,8 @@ public class Matrix3f {
 		return this;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "(" + m[0][0] + "  " + m[1][0] + "  " + m[2][0] + "\n" + m[0][1] + "  " + m[1][1] + "  " + m[2][1] + "\n" + m[0][2] + "  " + m[1][2] + "  " + m[2][2] + ")";
 	}
 }

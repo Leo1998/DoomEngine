@@ -162,7 +162,6 @@ public class TextureUtil {
 
 		int[] mipSizes = null;// TODO: implement mipmaping
 		int pos = 0;
-		// TODO: Remove unneccessary allocation
 		if (mipSizes == null) {
 			if (data != null) {
 				mipSizes = new int[] { data.capacity() };

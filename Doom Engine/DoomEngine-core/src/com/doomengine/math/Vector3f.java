@@ -47,7 +47,7 @@ public class Vector3f {
 
 		return new Vector3f(x / length, y / length, z / length);
 	}
-	
+
 	public Vector3f lerp(Vector3f dest, float lerpFactor) {
 		return dest.sub(this).mul(lerpFactor).add(this);
 	}
@@ -108,7 +108,8 @@ public class Vector3f {
 		return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "(" + x + " " + y + " " + z + ")";
 	}
 

@@ -23,7 +23,7 @@ public abstract class Texture extends NativeObject {
 	protected Type type;
 
 	protected Image image;
-	private MinFilter minificationFilter = MinFilter.BILINEAR_NO_MIPMAPS;
+	private MinFilter minificationFilter = MinFilter.BILINEAR_NEAREST_MIPMAPS;
 	private MagFilter magnificationFilter = MagFilter.BILINEAR;
 
 	public Texture(int width, int height, Format format) {

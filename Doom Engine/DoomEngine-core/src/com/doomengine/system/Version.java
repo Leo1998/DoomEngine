@@ -28,7 +28,8 @@ public class Version {
 		}
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return major + "." + minor + "." + revision;
 	}
 

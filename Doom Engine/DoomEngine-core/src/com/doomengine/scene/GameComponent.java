@@ -8,7 +8,8 @@ public abstract class GameComponent implements CloneableAsset {
 
 	protected GameObject parent;
 
-	@Override public GameComponent clone() {
+	@Override
+	public GameComponent clone() {
 		try {
 			GameComponent clone = (GameComponent) super.clone();
 

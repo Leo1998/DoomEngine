@@ -9,7 +9,7 @@ import com.doomengine.math.Matrix4f;
 import com.doomengine.math.Vector2f;
 import com.doomengine.math.Vector3f;
 import com.doomengine.math.Vector4f;
-import com.doomengine.renderer.Technique;
+import com.doomengine.renderer.technique.Technique;
 import com.doomengine.shader.VarType;
 import com.doomengine.texture.Texture;
 
@@ -36,7 +36,8 @@ public class Material implements CloneableAsset {
 		}
 	}
 
-	@Override public Material clone() {
+	@Override
+	public Material clone() {
 		try {
 			Material mat = (Material) super.clone();
 

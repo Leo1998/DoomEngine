@@ -1,19 +1,28 @@
 package com.doomengine.components;
 
 import com.doomengine.math.ColorRGBA;
-import com.doomengine.shader.Shader;
-import com.doomengine.shader.VarType;
+import com.doomengine.math.Vector3f;
 
 public class PointLight extends BaseLight {
 
-	public PointLight(ColorRGBA color, float intensity) {
-		super(color, intensity);
+	private float radius;
+
+	public PointLight(ColorRGBA color, float radius) {
+		super(color);
+
+		this.radius = radius;
 	}
 
-	@Override public void apply(Shader shader, String parent) {
-		super.apply(shader, parent + "base.");
+	public float getRadius() {
+		return radius;
+	}
 
-		shader.getUniform(parent + "position").setValue(VarType.Vector3, this.getTransform().getTransformedPosition());
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
+
+	public Vector3f getLightPosition() {
+		return this.getTransform().getTransformedPosition();
 	}
 
 }

@@ -15,7 +15,8 @@ public class Geometry implements CloneableAsset {
 		this.material = material;
 	}
 
-	@Override public Geometry clone() {
+	@Override
+	public Geometry clone() {
 		try {
 			Geometry clone = (Geometry) super.clone();
 
@@ -27,7 +28,6 @@ public class Geometry implements CloneableAsset {
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError();
 		}
-
 	}
 
 	public Mesh getMesh() {

@@ -1,22 +1,16 @@
 package com.doomengine.renderer;
 
+import com.doomengine.components.BaseLight;
+import com.doomengine.components.LightList;
+
 public class RenderQueue {
 
 	private GeometryList opaqueList;
+	private LightList lightList;
 
 	public RenderQueue() {
 		this.opaqueList = new GeometryList();
-	}
-
-	private void renderGeometryList(GeometryList list, Technique technique, boolean clear) {
-		for (int i = 0; i < list.size(); i++) {
-			Geometry obj = list.get(i);
-
-			technique.renderGeometry(obj);
-		}
-		if (clear) {
-			list.clear();
-		}
+		this.lightList = new LightList();
 	}
 
 	public Geometry put(Geometry obj) {
@@ -25,12 +19,23 @@ public class RenderQueue {
 		return obj;
 	}
 
-	public void renderQueue(Technique technique, boolean clear) {
-		renderGeometryList(opaqueList, technique, clear);
+	public GeometryList getOpaqueList() {
+		return opaqueList;
+	}
+
+	public BaseLight put(BaseLight obj) {
+		lightList.add(obj);
+
+		return obj;
+	}
+
+	public LightList getLightList() {
+		return lightList;
 	}
 
 	public void clear() {
 		opaqueList.clear();
+		lightList.clear();
 	}
 
 }

@@ -7,7 +7,8 @@ import java.net.URL;
 
 public class ClasspathLocator implements AssetLocator {
 
-	@Override public AssetInfo locate(AssetManager manager, AssetKey<?> key) {
+	@Override
+	public AssetInfo locate(AssetManager manager, AssetKey<?> key) {
 		URL url;
 		String name = key.getName();
 		if (name.startsWith("/"))

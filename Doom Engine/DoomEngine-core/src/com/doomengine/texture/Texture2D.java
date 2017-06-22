@@ -37,17 +37,20 @@ public class Texture2D extends Texture {
 		setUpdateNeeded();
 	}
 
-	@Override protected void deleteNativeBuffers() {
+	@Override
+	protected void deleteNativeBuffers() {
 		this.image.dispose();
 	}
 
-	@Override public void deleteObject() {
+	@Override
+	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteTexture(this);
 
 		id = -1;
 	}
 
-	@Override public void resetObject() {
+	@Override
+	public void resetObject() {
 		id = -1;
 
 		setUpdateNeeded();

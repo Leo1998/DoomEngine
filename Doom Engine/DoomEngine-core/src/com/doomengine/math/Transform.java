@@ -39,7 +39,8 @@ public class Transform implements CloneableAsset {
 		update();
 	}
 
-	@Override public Transform clone() {
+	@Override
+	public Transform clone() {
 		try {
 			Transform clone = (Transform) super.clone();
 
@@ -62,7 +63,8 @@ public class Transform implements CloneableAsset {
 		}
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "Transform [position=" + position + ", rotation=" + rotation + ", scale=" + scale + "]";
 	}
 
@@ -108,6 +110,8 @@ public class Transform implements CloneableAsset {
 	public Matrix4f getTransformation() {
 		if (this.hasChanged()) {
 			transformationMatrix = getTransformationMatrix();
+
+			update();
 		}
 
 		return transformationMatrix;
@@ -121,16 +125,6 @@ public class Transform implements CloneableAsset {
 		Matrix4f mat = getParentMatrix().mul(translation.mul(rotation.mul(scale)));
 
 		return mat;
-	}
-
-	public Matrix4f getTransformedPositionMatrix() {
-		Vector3f transformedPos = getTransformedPosition();
-
-		float x = transformedPos.getX();
-		float y = transformedPos.getY();
-		float z = transformedPos.getZ();
-
-		return new Matrix4f().initTranslation(x, y, z);
 	}
 
 	public Matrix4f getPositionMatrix() {
@@ -151,6 +145,16 @@ public class Transform implements CloneableAsset {
 		float sz = getScale().getZ();
 
 		return new Matrix4f().initScale(sx, sy, sz);
+	}
+
+	public Matrix4f getTransformedPositionMatrix() {
+		Vector3f transformedPos = getTransformedPosition();
+
+		float x = transformedPos.getX();
+		float y = transformedPos.getY();
+		float z = transformedPos.getZ();
+
+		return new Matrix4f().initTranslation(x, y, z);
 	}
 
 	public Vector3f getTransformedPosition() {
@@ -194,8 +198,14 @@ public class Transform implements CloneableAsset {
 		setRotation(getLookAtRotation(point, up));
 	}
 
-	public Quaternion getLookAtRotation(Vector3f point, Vector3f up) {
+	private Quaternion getLookAtRotation(Vector3f point, Vector3f up) {
 		return new Quaternion(new Matrix4f().initRotation(point.sub(getPosition()).normalized(), up));
+	}
+	
+	public final void setTo(Transform other) {//TODO allow to set in world coordinates
+		this.setPosition(other.getPosition());
+		this.setRotation(other.getRotation());
+		this.setScale(other.getScale());
 	}
 
 	public final Vector3f getPosition() {
@@ -203,7 +213,7 @@ public class Transform implements CloneableAsset {
 	}
 
 	public void setPosition(Vector3f position) {
-		this.position = position;
+		this.position.set(position);
 	}
 
 	public final Quaternion getRotation() {
@@ -211,7 +221,7 @@ public class Transform implements CloneableAsset {
 	}
 
 	public void setRotation(Quaternion rotation) {
-		this.rotation = rotation;
+		this.rotation.set(rotation);
 	}
 
 	public final Vector3f getScale() {
@@ -219,7 +229,7 @@ public class Transform implements CloneableAsset {
 	}
 
 	public void setScale(Vector3f scale) {
-		this.scale = scale;
+		this.scale.set(scale);
 	}
 
 }

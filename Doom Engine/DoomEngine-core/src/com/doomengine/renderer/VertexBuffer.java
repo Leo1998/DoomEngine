@@ -99,7 +99,8 @@ public abstract class VertexBuffer extends NativeObject {
 		return true;
 	}
 
-	@Override protected void deleteNativeBuffers() {
+	@Override
+	protected void deleteNativeBuffers() {
 		BufferUtils.disposeDirectBuffer(data);
 	}
 

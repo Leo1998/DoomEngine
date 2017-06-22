@@ -167,7 +167,8 @@ public class FileHandle {
 		return type;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "path: " + getPath() + "  " + "type: " + getType();
 	}
 

@@ -37,7 +37,8 @@ public class VertexAttribute {
 		return offset;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "VertexAttribute [name=" + name + ", type=" + type + ", size=" + size + ", normalized=" + normalized + ", offset=" + offset + "]";
 	}
 

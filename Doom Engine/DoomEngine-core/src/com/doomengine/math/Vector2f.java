@@ -41,7 +41,7 @@ public class Vector2f {
 	public float cross(Vector2f r) {
 		return x * r.getY() - y * r.getX();
 	}
-	
+
 	public Vector2f lerp(Vector2f dest, float lerpFactor) {
 		return dest.sub(this).mul(lerpFactor).add(this);
 	}
@@ -86,7 +86,8 @@ public class Vector2f {
 		return new Vector2f(Math.abs(x), Math.abs(y));
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "(" + x + " " + y + ")";
 	}
 

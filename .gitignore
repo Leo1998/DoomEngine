@@ -1,21 +1,8 @@
 /Doom Engine/build/
 
-/Doom Engine/DoomEngine-core/.externalToolBuilders/
-/Doom Engine/DoomEngine-core/.settings/
-/Doom Engine/DoomEngine-core/bin/
-/Doom Engine/DoomEngine-core/.classpath
-/Doom Engine/DoomEngine-core/.project
-
-/Doom Engine/DoomEngine-lwjgl/.externalToolBuilders/
-/Doom Engine/DoomEngine-lwjgl/.settings/
-/Doom Engine/DoomEngine-lwjgl/bin/
-/Doom Engine/DoomEngine-lwjgl/.classpath
-/Doom Engine/DoomEngine-lwjgl/.project
-
-/Wilderness/.settings/
-/Wilderness/bin/
-/Wilderness/.classpath
-/Wilderness/.project
+*/.externalToolBuilders/
+*/.settings/
+*/bin/
 
 /.metadata/
 /.recommenders/
