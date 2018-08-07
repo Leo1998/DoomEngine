@@ -1,7 +1,7 @@
 package com.doomengine.renderer;
 
-import com.doomengine.components.BaseLight;
-import com.doomengine.components.LightList;
+import com.doomengine.lighting.BaseLight;
+import com.doomengine.lighting.LightList;
 
 public class RenderQueue {
 

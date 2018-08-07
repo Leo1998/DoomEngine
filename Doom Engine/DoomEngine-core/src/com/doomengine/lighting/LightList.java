@@ -1,4 +1,4 @@
-package com.doomengine.components;
+package com.doomengine.lighting;
 
 import java.util.ArrayList;
 

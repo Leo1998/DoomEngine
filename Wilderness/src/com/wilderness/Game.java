@@ -2,8 +2,8 @@ package com.wilderness;
 
 import com.doomengine.app.Application;
 import com.doomengine.components.Camera3D;
-import com.doomengine.components.DirectionalLight;
 import com.doomengine.components.EulerController;
+import com.doomengine.lighting.DirectionalLight;
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.math.Vector3f;
 import com.doomengine.scene.GameObject;
@@ -53,11 +53,13 @@ public class Game extends Application {
 
 		GameObject sun = new GameObject();
 		sun.addComponent(new DirectionalLight(ColorRGBA.WHITE));
-		sun.getTransform().getPosition().set(0, 100, 100);
+		sun.getTransform().getPosition().set(0, 500, 100);
 		sun.getTransform().lookAt(new Vector3f(0, 0, 0), new Vector3f(0, 0, 1));
 		scene.addObject(sun);
 
 		this.viewport.setScene(scene);
+
+		this.viewport.setBackgroundColor(new ColorRGBA(0.55f, 0.88f, 0.98f, 1.0f));
 	}
 
 	@Override

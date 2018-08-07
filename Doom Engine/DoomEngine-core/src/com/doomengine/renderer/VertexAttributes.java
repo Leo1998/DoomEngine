@@ -47,4 +47,28 @@ public class VertexAttributes {
 		return attributes[index];
 	}
 
+	public VertexAttribute getVertexAttribute(String name) {
+		for (int i = 0; i < attributes.length; i++) {
+			VertexAttribute attribute = attributes[i];
+
+			if (attribute.getName().equals(name)) {
+				return attribute;
+			}
+		}
+
+		return null;
+	}
+
+	public int getVertexAttributeIndex(VertexAttribute attribute) {
+		for (int i = 0; i < attributes.length; i++) {
+			VertexAttribute attribute0 = attributes[i];
+
+			if (attribute0 == attribute) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
 }

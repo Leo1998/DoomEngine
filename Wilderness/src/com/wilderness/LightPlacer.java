@@ -1,6 +1,6 @@
 package com.wilderness;
 
-import com.doomengine.components.PointLight;
+import com.doomengine.lighting.PointLight;
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.scene.GameComponent;
 import com.doomengine.scene.GameObject;

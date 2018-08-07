@@ -1,4 +1,4 @@
-package com.doomengine.components;
+package com.doomengine.lighting;
 
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.math.Vector3f;

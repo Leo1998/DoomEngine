@@ -201,8 +201,9 @@ public class Transform implements CloneableAsset {
 	private Quaternion getLookAtRotation(Vector3f point, Vector3f up) {
 		return new Quaternion(new Matrix4f().initRotation(point.sub(getPosition()).normalized(), up));
 	}
-	
-	public final void setTo(Transform other) {//TODO allow to set in world coordinates
+
+	public final void setTo(Transform other) {// TODO allow to set in world
+												// coordinates
 		this.setPosition(other.getPosition());
 		this.setRotation(other.getRotation());
 		this.setScale(other.getScale());

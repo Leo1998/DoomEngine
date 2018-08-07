@@ -30,6 +30,23 @@ public class VertexBufferObject extends VertexBuffer {
 		data.rewind();
 	}
 
+	public float[] getBuffer(String attribName) {
+		VertexAttribute attribute = attributes.getVertexAttribute(attribName);
+
+		FloatBuffer buffer = (FloatBuffer) data;
+		float[] result = new float[getNumVertices() * attribute.getSize()];
+
+		for (int i = 0; i < getNumVertices(); i++) {
+			buffer.position(i * attributes.vertexSize + (attribute.offset / 4));
+
+			for (int j = 0; j < attribute.getSize(); j++) {
+				result[i * attribute.getSize() + j] = buffer.get();
+			}
+		}
+
+		return result;
+	}
+
 	@Override
 	public void deleteObject() {
 		((Renderer) this.rendererObject).deleteVertexBuffer(this);

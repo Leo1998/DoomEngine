@@ -1,6 +1,6 @@
 package com.doomengine.renderer.technique;
 
-import com.doomengine.components.LightList;
+import com.doomengine.lighting.LightList;
 import com.doomengine.material.Material;
 import com.doomengine.renderer.Geometry;
 import com.doomengine.renderer.Renderer;

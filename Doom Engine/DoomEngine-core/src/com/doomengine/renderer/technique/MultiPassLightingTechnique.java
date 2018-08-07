@@ -1,9 +1,9 @@
 package com.doomengine.renderer.technique;
 
-import com.doomengine.components.BaseLight;
-import com.doomengine.components.DirectionalLight;
-import com.doomengine.components.LightList;
-import com.doomengine.components.PointLight;
+import com.doomengine.lighting.BaseLight;
+import com.doomengine.lighting.DirectionalLight;
+import com.doomengine.lighting.LightList;
+import com.doomengine.lighting.PointLight;
 import com.doomengine.material.Material;
 import com.doomengine.math.ColorRGBA;
 import com.doomengine.math.Vector3f;
@@ -11,6 +11,7 @@ import com.doomengine.math.Vector4f;
 import com.doomengine.renderer.BlendMode;
 import com.doomengine.renderer.Geometry;
 import com.doomengine.renderer.Renderer;
+import com.doomengine.renderer.TestFunc;
 import com.doomengine.shader.Shader;
 import com.doomengine.shader.Uniform;
 import com.doomengine.shader.VarType;
@@ -57,7 +58,7 @@ public class MultiPassLightingTechnique extends Technique {
 
 					renderer.setBlendMode(BlendMode.AlphaAdditive);
 					renderer.setDepthWriteEnabled(false);
-					renderer.enableDepthTest(false);
+					renderer.setDepthFunc(TestFunc.Equal);
 				}
 
 				lightColor.setValue(VarType.Vector4, light.getColor());
@@ -83,7 +84,7 @@ public class MultiPassLightingTechnique extends Technique {
 
 			renderer.setBlendMode(oldBlendMode);
 			renderer.setDepthWriteEnabled(true);
-			renderer.enableDepthTest(true);
+			renderer.setDepthFunc(TestFunc.LessOrEqual);
 		}
 	}
 

@@ -3,6 +3,8 @@ package com.doomengine.math;
 public class Vector3f {
 
 	public static final Vector3f ZERO = new Vector3f(0, 0, 0);
+	public static final Vector3f POSITIVE_INFINITY = new Vector3f(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
+	public static final Vector3f NEGATIVE_INFINITY = new Vector3f(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
 
 	private float x;
 	private float y;

@@ -2,7 +2,7 @@ package com.doomengine.renderer.technique;
 
 import java.util.HashMap;
 
-import com.doomengine.components.LightList;
+import com.doomengine.lighting.LightList;
 import com.doomengine.math.Camera;
 import com.doomengine.renderer.Geometry;
 import com.doomengine.renderer.GeometryList;
